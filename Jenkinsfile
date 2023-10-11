@@ -21,12 +21,12 @@ pipeline {
             steps { 
                 sh 'docker build -t reactimage .'
                 sh 'docker tag reactimage:latest rajeshreactimage/dev:latest'
+                sh 'docker push docker.io/rajesh4851/simple-pthon-flask-app:latest'
             }    
        }
        stage('Docker login') {
             steps { 
                 withCredentials([usernamePassword(credentialsId: 'dockercred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                 sh 'docker push "docker.io/rajesh4851/simple-pthon-flask-app:latest'
                 }
             }
        }
