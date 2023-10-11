@@ -27,7 +27,6 @@ pipeline {
             steps { 
                 withCredentials([usernamePassword(credentialsId: 'dockercred', passwordVariable: 'PASS', usernameVariable: 'rajesh4851')]) {
                 sh 'docker push rajesh4851/dev:latest'
-                docker.withRegistry('https://index.docker.io/v1/', "dockercred") {
                    dockerImage.push()
                    }
                 
