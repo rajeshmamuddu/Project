@@ -23,13 +23,6 @@ pipeline {
                 sh 'docker tag reactimage:latest rajeshreactimage/dev:latest'
             }    
        }
-       stage('Docker login') {
-           environment {
-        DOCKER_IMAGE = "rajeshreactimage/dev:latest${BUILD_NUMBER}"
-        // DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
-        REGISTRY_CREDENTIALS = credentials('docker-cred')
-           }
-      }
        stage('Deploy') {
             steps {  
                 def dockerImage = docker.image("${DOCKER_IMAGE}")
