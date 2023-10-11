@@ -26,7 +26,7 @@ pipeline {
        stage('Docker login') {
             steps { 
                 withCredentials([usernamePassword(credentialsId: 'dockercred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                dockerImage.push()
+                 sh 'docker push "docker.io/rajesh4851/simple-pthon-flask-app:latest'
                 }
             }
        }
