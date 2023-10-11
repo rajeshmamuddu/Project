@@ -20,23 +20,23 @@ pipeline {
        stage('Build Image') {
             steps { 
                 sh 'docker build -t reactimage .'
-                sh 'docker tag reactimage:latest indumathicloud001/dev:latest'
+                sh 'docker tag reactimage:latest rajeshreactimage/dev:latest'
             }    
        }
        stage('Docker login') {
             steps { 
-                withCredentials([usernamePassword(credentialsId: 'Dockercred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockercred', passwordVariable: 'PASS', usernameVariable: 'rajesh4851')]) {
                 sh "echo $PASS | docker login -u $USER --password-stdin"
-                sh 'docker push indumathicloud001/dev:latest'
+                sh 'docker push rajesh4851/dev:latest'
                 }
             }
        }
        stage('Deploy') {
             steps {  
                 script {
-                   def dockerCmd = 'docker run -itd --name My-first-container -p 80:5000 indumathicloud001/dev:latest'
+                   def dockerCmd = 'docker run -itd --name My-first-container -p 80:5000 rajeshreactimage/dev:latest'
                    sshagent(['sshkeypair']) {
-                   sh "ssh -o StrictHostKeyChecking=no ubuntu@54.86.64.88 ${dockerCmd}"
+                   sh "ssh -o StrictHostKeyChecking=no ubuntu@13.233.250.24 ${dockerCmd}"
                    }
                 }
             }
