@@ -6,7 +6,7 @@ ipeline {
     stages {
         stage('Build') {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'Github', url: 'https://github.com/rajeshmamuddu/Deploying-a-React-Application-Using-a-Jenkins-CI-CD-Pipeline.git']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'Github', url: 'https://github.com/rajeshmamuddu/Project.git']])
                 sh 'npm install'
                 // sh 'npm run build'
             }
