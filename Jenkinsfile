@@ -27,8 +27,6 @@ pipeline {
             steps { 
                 withCredentials([usernamePassword(credentialsId: 'dockercred', passwordVariable: 'PASS', usernameVariable: 'rajesh4851')]) {
                 sh 'docker push rajesh4851/dev:latest'
-                   dockerImage.push()
-                   }
                 
                 }
             }
@@ -40,7 +38,7 @@ pipeline {
                    sshagent(['sshkeypair']) {
                    sh "ssh -o StrictHostKeyChecking=no ubuntu@13.233.250.24 ${dockerCmd}"
                    }
-                }
-            }
-       }
+               }
+         }
+     }
 }
