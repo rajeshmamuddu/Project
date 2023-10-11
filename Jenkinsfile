@@ -1,4 +1,4 @@
-pipeline {
+ipeline {
     agent any
     tools {
         nodejs 'nodejs'
@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                checkout scmGit(branches: [[name: '*/Dev']], extensions: [], userRemoteConfigs: [[credentialsId: 'Github', url: 'https://github.com/Induprojects/Capstone-Project.git']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'Github', url: 'https://github.com/rajeshmamuddu/Deploying-a-React-Application-Using-a-Jenkins-CI-CD-Pipeline.git']])
                 sh 'npm install'
                 // sh 'npm run build'
             }
@@ -25,9 +25,8 @@ pipeline {
        }
        stage('Docker login') {
             steps { 
-                withCredentials([usernamePassword(credentialsId: 'dockercred', passwordVariable: 'PASS', usernameVariable: 'rajesh4851')]) {
+                withCredentials([usernamePassword(credentialsId: 'docker-cred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                 sh 'docker push rajesh4851/dev:latest'
-                
                 }
             }
        }
@@ -38,7 +37,8 @@ pipeline {
                    sshagent(['sshkeypair']) {
                    sh "ssh -o StrictHostKeyChecking=no ubuntu@13.233.250.24 ${dockerCmd}"
                    }
-               }
-         }
-     }
+                }
+            }
+       }
+    }
 }
