@@ -26,8 +26,9 @@ pipeline {
        stage('Docker login') {
             steps { 
                 withCredentials([usernamePassword(credentialsId: 'dockercred', passwordVariable: 'PASS', usernameVariable: 'rajesh4851')]) {
-                sh "echo $PASS | docker login -u $USER --password-stdin"
                 sh 'docker push rajesh4851/dev:latest'
+                docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
+                dockerImage.push()
                 }
             }
        }
@@ -43,4 +44,3 @@ pipeline {
        }
     }
 }
-
