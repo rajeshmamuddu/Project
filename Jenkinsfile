@@ -21,24 +21,22 @@ pipeline {
             steps { 
                 sh 'docker build -t reactimage .'
                 sh 'docker tag reactimage:latest rajeshreactimage/dev:latest'
-                sh 'docker push docker.io/rajesh4851/simple-pthon-flask-app:latest'
             }    
        }
        stage('Docker login') {
-            steps { 
-                withCredentials([usernamePassword(credentialsId: 'dockercred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                }
-            }
-       }
+           environment {
+        DOCKER_IMAGE = "rajeshreactimage/dev:latest${BUILD_NUMBER}"
+        // DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
+        REGISTRY_CREDENTIALS = credentials('docker-cred')
+           }
+      }
        stage('Deploy') {
             steps {  
-                script {
-                   def dockerCmd = 'docker run -itd --name My-first-container -p 80:5000 rajeshreactimage/dev:latest'
-                   sshagent(['sshkeypair']) {
-                   sh "ssh -o StrictHostKeyChecking=no ubuntu@13.233.250.24 ${dockerCmd}"
-                   }
-                }
+                def dockerImage = docker.image("${DOCKER_IMAGE}")
+                docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
+                dockerImage.push()
+               }
             }
-       }
+         }
     }
 }
