@@ -26,7 +26,7 @@ pipeline {
        stage('Docker login') {
             steps { 
                 withCredentials([usernamePassword(credentialsId: 'dockercred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                sh 'docker push rajeshreactimage/dev:latest'
+                dockerImage.push()
                 }
             }
        }
